@@ -102,6 +102,9 @@ private WebDriver driver;
 	
 	@FindBy(css = "#content > div.row > div.col-xs-12.col-sm-7.col-md-7.col-lg-4 > span > h1")
 	private WebElement getTextMasterParameter;
+
+	@FindBy(css = "#content > div > div.col-xs-12.col-sm-7.col-md-7.col-lg-4 > span > h1")
+	private WebElement getBack;
 	
 //	POPUP FRAME
 	
@@ -132,7 +135,7 @@ private WebDriver driver;
 	}
 	
 	public void formMasterParameter(String nikMasterParameter, String nameMasterParameter, String positionMasterParameter, 
-			String branchMasterParameter, String areaMasterParameter, String searchparameter) {
+			String branchMasterParameter, String areaMasterParameter) {
 		JavascriptExecutor js = (JavascriptExecutor)driver;	
 		
 //		btnPopupSales.click();
@@ -151,19 +154,41 @@ private WebDriver driver;
 		txtArea.sendKeys(areaMasterParameter);
 		btnSubmit.submit();
 		
+	}
+	
+	public void erorFormNewbtnBack() {
+		
 		btnAddNewParameter.click();
 		btnBack.click();
+//		eror nyasar ke form user
+	}
+	
+	public void formEdit() {
 		
 		menuMaster.click();	
 		masterParameter.click();
+
+	}
+	
+	public void formEditbtnBack() {
+		JavascriptExecutor js = (JavascriptExecutor)driver;	
 		
 		editPadaTabel.click();
 		js.executeScript("window.scrollBy(0,500)");
 		StatusEdit(1);
 		btnSubmitEdit.submit();
+
+	}
+	
+	public void erorFormEditbtnBack() {
 		
 		editPadaTabel.click();
 		btnBackEdit.click();
+//		eror nyasar ke form user
+	}
+	
+	public void lanjutParameter(String searchparameter) {
+		JavascriptExecutor js = (JavascriptExecutor)driver;	
 		
 		menuMaster.click();	
 		masterParameter.click();
@@ -185,10 +210,13 @@ private WebDriver driver;
 		pagePrevious.click();
 		pageNext.click();
 		btnUP.click();
-		
 	}
 	
-	public String getDisplayMasterAkun() {
+	public WebElement getDisplayUser() {
+		return getBack;
+	}
+	
+	public String getDisplayMasterParameter() {
 		return getTextMasterParameter.getText();
 	}
 	

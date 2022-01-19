@@ -1,6 +1,13 @@
 package com.mobilesales.juaracoding.extentreport.extents.glue;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,11 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -31,11 +33,13 @@ import com.mobilesales.juaracoding.extentreport.utils.Constants;
 import com.mobilesales.juaracoding.extentreport.utils.TestCases;
 import com.mobilesales.juaracoding.extentreport.utils.Utils;
 
+
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.messages.types.TestCase;
 import io.cucumber.spring.CucumberContextConfiguration;
 
 @CucumberContextConfiguration
@@ -72,7 +76,7 @@ public class StepDefinition {
 	public void user_buka_halaman_website() {
 		driver = DriverSingleton.getDriver();
 		driver.get(Constants.URL);
-		extentTest.log(Status.PASS, "User buka halaman website " + Constants.URL);
+		extentTest.pass("User buka halaman website " + Constants.URL);
 	}
 	
 	
@@ -81,22 +85,22 @@ public class StepDefinition {
 	@When("^User memasukan username dan password dan klik Log In")
 	public void user_memasukan_username_dan_password_dan_klik_log_in() {
 		loginPage.Login(configurationProperties.getUsername(), configurationProperties.getPassword());
-		extentTest.log(Status.PASS, "User memasukan username dan password dan klik Log In");
+		extentTest.pass("User memasukan username dan password dan klik Log In");
 	}	
 	
 	@Then("^User dapat login ke Website")
 	public void user_dapat_login_ke_Website() {
 		loginPage.DisplayAlert();
 		assertEquals(configurationProperties.getGetaccount(), loginPage.getDisplayLogin());
-		extentTest.log(Status.PASS, "User dapat login ke Website");
+		extentTest.pass("User dapat login ke Website");
 	}
 	
 //	MASTER AKUN	
-//	User Super Admin
+//	NEW
 	@When("^User klik menu Master User lalu klik Add New User")
 	public void user_klik_menu_master_user_lalu_klik_add_new_user() {
 		masteruserPage.MasterUser();
-		extentTest.log(Status.PASS, "User klik menu Master User lalu klik Add New User");
+		extentTest.pass("User klik menu Master User lalu klik Add New User");
 	}
 	
 	@When("^User memasukan data di form add user dan klik Submit")
@@ -104,30 +108,31 @@ public class StepDefinition {
 		masteruserPage.formMasterUser(configurationProperties.getNikmasteruser(), configurationProperties.getNamemasteruser(), 
 				configurationProperties.getUsernamemasteruser(), configurationProperties.getPasswordmasteruser(), 
 				configurationProperties.getEmailmasteruser(), configurationProperties.getPicturemasteruser());
-		extentTest.log(Status.PASS, "User memasukan data di form add user dan klik Submit");
+		extentTest.pass("User memasukan data di form add user dan klik Submit");
 	}
 	
 	@Then("^User berhasil membuat akun")
 	public void user_berhasil_membuat_akun() {
 		masteruserPage.getDisplayMasterAkun();
 		assertEquals(configurationProperties.getGetaccountmasteruser(), masteruserPage.getDisplayMasterAkun());
-		extentTest.log(Status.PASS, "User berhasil membuat akun");
+		extentTest.pass("User berhasil membuat akun");
 	}
 	
-	@When("^User klik ikon edit pada tabel")
-	public void user_klik_ikon_edit_pada_tabel() {
+//	EDIT
+	@When("^User klik ikon edit pada tabel user")
+	public void user_klik_ikon_edit_pada_tabel_user() {
 		masteruserPage.editUser(configurationProperties.getUsernamedituser(), configurationProperties.getNamaedituser(),
 				configurationProperties.getEmailedituser(), configurationProperties.getPictureedituser());
-		extentTest.log(Status.PASS, "User klik ikon edit pada tabel");
+		extentTest.pass("User klik ikon edit pada tabel");
 	}
 	
-	@When("^User melakukan edit data lalu klik Submit")
+	@When("^User melakukan edit data user lalu klik Submit")
 	public void user_melakukan_edit_data_lalu_klik_submit() {
 		masteruserPage.editUserBug();
 		extentTest.pass("User melakukan edit data lalu klik Submit");
 	}
 	
-	@Then("^User berhasil melakukan edit akun")
+	@Then("^User berhasil melakukan edit akun user")
 	public void user_berhasil_melakukan_edit_akun() {
 	
 		if(masteruserPage.getDisplayEdit().isDisplayed()) {
@@ -142,64 +147,152 @@ public class StepDefinition {
 			}
 		}else {
 			extentTest.log(Status.PASS, "User berhasil melakukan edit akun");	
-		}	
+		}	masteruserPage.lanjuteditUser();
 	}
 	
-	@When("^User klik ikon delete pada tabel")
+//	DELETE
+	@When("^User klik ikon delete pada tabel user")
 	public void user_klik_ikon_delete_pada_tabel() {
-		masteruserPage.lanjuteditUser();
 		masteruserPage.deleteUser(configurationProperties.getSearchuser());
-		extentTest.log(Status.PASS, "User klik ikon delete pada tabel");
+		extentTest.pass("User klik ikon delete pada tabel");
 	}
-	
 	@Then("^User berhasil melakukan delete akun")
 	public void user_berhasil_melakukan_delete_akun() {
 		masteruserPage.getDisplayMasterAkun();
 		assertEquals(configurationProperties.getGetaccountmasteruser(), masteruserPage.getDisplayMasterAkun());
-		extentTest.log(Status.PASS, "User berhasil melakukan delete akun");
+		extentTest.pass("User berhasil melakukan delete akun");
 	}
 	
 //	MASTER PARAMETER UPLOAD
+//	NEW
 	@When("^User klik menu Master Parameter Upload lalu klik Add New")
 	public void user_klik_menu_master_parameter_upload_lalu_klik_add_new() {
-		masterparameterPage.MasterParameter();
-		extentTest.log(Status.PASS, "User klik menu Master Parameter Upload lalu klik Add New");
+		masterparameterPage.MasterParameter();		
+		extentTest.pass("User klik menu Master Parameter Upload lalu klik Add New");
 	}
 	
 	@When("^User memasukan data di form parameter dan klik Submit")
 	public void user_memasukan_data_di_form_parameter_dan_klik_submit() {
 		masterparameterPage.formMasterParameter(configurationProperties.getNikmasterparameter(), configurationProperties.getNamemasterparameter(), 
 				configurationProperties.getPositionmasterparameter(), configurationProperties.getBranchmasterparameter(), 
-				configurationProperties.getAreamasterparameter(), configurationProperties.getSearchparameter());
-		extentTest.log(Status.PASS, "User memasukan data di form parameter dan klik Submit");
+				configurationProperties.getAreamasterparameter());
+		
+		extentTest.pass("User memasukan data di form parameter dan klik Submit");
 	}
 	
 	@Then("^User berhasil membuat Data Pamameter Upload")
 	public void user_berhasil_membuat_data_pamameter_upload() {
-		masteruserPage.getDisplayMasterAkun();
-		assertEquals(configurationProperties.getGetaccountmasterparameter(), masterparameterPage.getDisplayMasterAkun());
+		masterparameterPage.getDisplayMasterParameter();
+		assertEquals(configurationProperties.getGetaccountmasterparameter(), masterparameterPage.getDisplayMasterParameter());
 		extentTest.log(Status.PASS, "User berhasil membuat Data Pamameter Upload");
+		
+		masterparameterPage.erorFormNewbtnBack();
+		if(masterparameterPage.getDisplayUser().isDisplayed()) {
+			
+			try {
+				Thread.sleep(1000);
+				extentTest.fail("Tombol Back pada form Add error karena direct ke halaman Master User dengan screenshot dibawah", 
+						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			extentTest.pass("User memasukan data di form parameter dan klik Submit");	
+		}
+	}
+	
+//	EDIT
+	@When("^User klik ikon edit pada tabel")
+	public void user_klik_ikon_edit_pada_tabel() {
+		masterparameterPage.formEdit();		
+		extentTest.pass("User klik ikon edit pada tabel");
+	}
+	
+	@When("^User melakukan edit data lalu klik Submit")
+	public void user_melakukan_edit_data_parameter_lalu_klik_submit() {
+		masterparameterPage.formEditbtnBack();		
+		extentTest.pass("User melakukan edit data lalu klik Submit");
+		
+		masterparameterPage.erorFormEditbtnBack();
+		if(masterparameterPage.getDisplayUser().isDisplayed()) {
+			
+			try {
+				Thread.sleep(1000);
+				extentTest.fail("Tombol Back pada form Edit error karena direct ke halaman Master User dengan screenshot dibawah", 
+						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			extentTest.pass("User melakukan edit data lalu klik Submit");	
+		}
+	}
+	
+	@Then("^User berhasil melakukan edit akun")
+	public void user_berhasil_melakukan_edit_akun_parameter() {
+		masterparameterPage.lanjutParameter(configurationProperties.getSearchparameter());
+		
+		masterparameterPage.getDisplayMasterParameter();
+		assertEquals(configurationProperties.getGetaccountmasterparameter(), masterparameterPage.getDisplayMasterParameter());
+		extentTest.log(Status.PASS, "User berhasil melakukan edit akun");
+		
 	}
 	
 //	MASTER POSTER
+//	NEW
 	@When("^User klik menu Master Poster lalu klik Upload Poster")
 	public void user_klik_menu_master_poster_lalu_klik_upload_poster() {
-//		masterposterPage.MasterPoster();
+		masterposterPage.MasterPoster();
 		extentTest.log(Status.PASS, "User klik menu Master Poster lalu klik Upload Poster");
 	}
 	
 	@When("^User memasukan data di form upload poster dan klik Submit")
 	public void user_memasukan_data_di_form_upload_dan_klik_submit() {
-//		masterposterPage.formMasterPoster(configurationProperties.getGetaccountmasterposter(), 
-//				configurationProperties.getPicturemasteruser(), configurationProperties.getSearchposter());
+		masterposterPage.formMasterPoster(configurationProperties.getProgramnameposter(), 
+				configurationProperties.getPicturemasterposter());
 		extentTest.log(Status.PASS, "User memasukan data di form upload poster dan klik Submit");
 	}
 	
 	@Then("^User berhasil membuat Poster")
 	public void user_berhasil_membuat_poster() {
-//		masterposterPage.getDisplayMasterPoster();
-//		assertEquals(configurationProperties.getGetaccountmasterposter(), masterposterPage.getDisplayMasterPoster());
+		masterposterPage.getDisplayMasterPoster();
+		assertEquals(configurationProperties.getGetaccountmasterposter(), masterposterPage.getDisplayMasterPoster());
 		extentTest.log(Status.PASS, "User berhasil membuat Data Pamameter Upload");
+	}
+	
+//	EDIT
+	@When("^User klik ikon edit pada tabel poster")
+	public void user_klik_ikon_edit_pada_tabel_poster() {
+		masterposterPage.formEditPoster();
+		extentTest.log(Status.PASS, "User klik ikon edit pada tabel poster");
+	}
+	
+	@When("^User melakukan edit status lalu klik Submit")
+	public void user_melakukan_edit_status_lalu_klik_submit() {
+		masterposterPage.formEditBack();
+		extentTest.log(Status.PASS, "User melakukan edit status lalu klik Submit");
+	}
+	
+	@Then("^User berhasil melakukan edit poster")
+	public void user_berhasil_melakukan_edit_poster() {
+		masterposterPage.getDisplayMasterPoster();
+		assertEquals(configurationProperties.getGetaccountmasterposter(), masterposterPage.getDisplayMasterPoster());
+		extentTest.log(Status.PASS, "User berhasil melakukan edit poster");
+	}
+	
+//	DELETE
+	@When("^User klik ikon delete pada tabel poster")
+	public void user_klik_ikon_delete_pada_tabel_poster() {
+		masterposterPage.formHapusPoster(configurationProperties.getSearchposter());
+		extentTest.pass("User klik ikon delete pada tabel poster");
+	}
+	@Then("^User berhasil melakukan delete poster")
+	public void user_berhasil_melakukan_delete_poster() {
+		masterposterPage.getDisplayMasterPoster();
+		assertEquals(configurationProperties.getGetaccountmasterposter(), masterposterPage.getDisplayMasterPoster());
+		extentTest.pass("User berhasil melakukan delete poster");
 	}
 	
 

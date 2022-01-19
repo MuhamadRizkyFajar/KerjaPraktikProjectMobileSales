@@ -88,6 +88,13 @@ public class ConfigurationProperties {
 	
 	@Value("${editusersucces}")
 	private String editusersucces;
+	
+	@Value("${picturemasterposter}")
+	private String picturemasterposter;
+
+	public String getPicturemasterposter() {
+		return picturemasterposter;
+	}
 
 	public String getEditusersucces() {
 		return editusersucces;
@@ -196,12 +203,5 @@ public class ConfigurationProperties {
 	public String getSearchposter() {
 		return searchposter;
 	}
-	
-	
-	
-	
 
-	
-	
-	
 }

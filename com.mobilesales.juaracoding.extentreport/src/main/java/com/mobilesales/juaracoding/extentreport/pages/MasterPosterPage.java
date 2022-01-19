@@ -33,10 +33,10 @@ private WebDriver driver;
 	@FindBy(css = "#content > div.row > div.col-xs-12.col-sm-5.col-md-5.col-lg-8 > button")
 	private WebElement btnUploadPoster;
 	
-	@FindBy(css = "#dt_basic > tbody > tr:nth-child(1) > td:nth-child(4) > button")
+	@FindBy(css = "#dt_basic > tbody > tr:nth-child(2) > td:nth-child(4) > button")
 	private WebElement editPadaTabel;
 	
-	@FindBy(css = "#dt_basic > tbody > tr:nth-child(1) > td:nth-child(4) > a")
+	@FindBy(css = "#dt_basic > tbody > tr:nth-child(3) > td:nth-child(4) > a")
 	private WebElement hapusPadaTabel;
 	
 	@FindBy(css = "#dt_basic_length > label > select")
@@ -98,20 +98,24 @@ private WebDriver driver;
 		btnUploadPoster.click();
 	}
 	
-	public void formMasterPoster(String programNamePoster, String pictureMasterPoster, String searchposter) {
-		JavascriptExecutor js = (JavascriptExecutor)driver;	
-		
-		txtProgramName.sendKeys(programNamePoster);
-		BtnUploadPicture.sendKeys(pictureMasterPoster);
+	public void formMasterPoster(String programnameposter, String picturemasterposter) {
+	
+		txtProgramName.sendKeys(programnameposter);
+		BtnUploadPicture.sendKeys(picturemasterposter);
 		btnSubmit.submit();
 		
 		btnUploadPoster.click();
 		btnCancel.click();
-		
+	}
+	
+	public void formEditPoster() {
 		editPadaTabel.click();
 		StatusActive(1);
 		btnSubmitEdit.click();
 		
+	}
+	
+	public void formEditBack() {	
 		editPadaTabel.click();
 		btnCancelEdit.click();
 		
@@ -120,6 +124,11 @@ private WebDriver driver;
 		sortProgramName.click();
 		sortPoster.click();
 		sortStatus.click();
+	
+	}
+	
+	public void formHapusPoster(String searchposter) {
+		JavascriptExecutor js = (JavascriptExecutor)driver;	
 	
 		txtSearchTabel.sendKeys(searchposter);
 		hapusPadaTabel.click();
@@ -130,7 +139,7 @@ private WebDriver driver;
 		pageDua.click();
 		pagePrevious.click();
 		pageNext.click();
-
+		js.executeScript("window.scrollBy(0,-3000)");
 	}
 	
 	public String getDisplayMasterPoster() {

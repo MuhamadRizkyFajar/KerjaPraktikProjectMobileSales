@@ -85,6 +85,13 @@ public class ConfigurationProperties {
 	
 	@Value("${searchposter}")
 	private String searchposter;
+	
+	@Value("${editusersucces}")
+	private String editusersucces;
+
+	public String getEditusersucces() {
+		return editusersucces;
+	}
 
 	public String getBrowser() {
 		return browser;

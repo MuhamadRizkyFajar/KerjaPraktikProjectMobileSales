@@ -6,21 +6,26 @@
   <name>Magang Mobile Sales</name>
   
   
+  <description>Mengetest Aplikasi Mobile Sales</description>
   <dependencies>
-  <!-- https://mvnrepository.com/artifact/junit/junit -->
-<dependency>
+  <dependency>
     <groupId>junit</groupId>
     <artifactId>junit</artifactId>
-    <version>4.13.2</version>
+    <version>4.12</version>
     <scope>test</scope>
-</dependency>
-  <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+ </dependency>
 <dependency>
     <groupId>org.seleniumhq.selenium</groupId>
     <artifactId>selenium-java</artifactId>
-    <version>4.1.1</version>
+    <version>4.1.0</version>
 </dependency>
-  <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.6</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
 <dependency>
     <groupId>io.cucumber</groupId>
     <artifactId>cucumber-java</artifactId>
@@ -32,12 +37,6 @@
     <artifactId>cucumber-junit</artifactId>
     <version>7.1.0</version>
     <scope>test</scope>
-</dependency>
-<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-spring -->
-<dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-spring</artifactId>
-    <version>7.1.0</version>
 </dependency>
 <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 <dependency>
@@ -64,13 +63,18 @@
     <artifactId>spring-aop</artifactId>
     <version>5.3.14</version>
 </dependency>
-<!-- https://mvnrepository.com/artifact/com.relevantcodes/extentreports -->
+<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-spring -->
+<dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-spring</artifactId>
+    <version>7.1.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
 <dependency>
 <groupId>com.aventstack</groupId>
 <artifactId>extentreports</artifactId>
 <version>5.0.9</version>
 </dependency>
 
-
-</dependencies>
+  </dependencies>
 </project>

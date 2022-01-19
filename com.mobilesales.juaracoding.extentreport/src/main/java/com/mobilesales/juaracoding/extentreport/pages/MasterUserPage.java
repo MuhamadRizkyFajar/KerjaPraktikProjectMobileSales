@@ -165,6 +165,10 @@ private WebDriver driver;
 	@FindBy(css = "#checkout-form > footer > a > i")
 	private WebElement btnBackEdit;
 	
+	@FindBy(css = "#widget-grid > header > h2 > b")
+	private WebElement getEdit;
+	
+	
 	
 	
 	public void MasterUser() {	
@@ -174,8 +178,7 @@ private WebDriver driver;
 	}
 	
 	public void formMasterUser(String nikmasterUser, String namemasteruser, String usernamemasteruser, 
-			String passwordmasteruser, String emailmasteruser, String picturemasteruser, 
-			String usernamedituser, String namaedituser, String emailedituser, String pictureedituser, String searchuser) {
+			String passwordmasteruser, String emailmasteruser, String picturemasteruser) {
 		
 		JavascriptExecutor js = (JavascriptExecutor)driver;	
 		
@@ -220,24 +223,45 @@ private WebDriver driver;
 		sortPosition.click();
 		sortStatus.click();
 		sortCreated.click();
+
+	}
+	
+	public void editUser(String usernamedituser, String namaedituser, String emailedituser, String pictureedituser) {
 		
+		JavascriptExecutor js = (JavascriptExecutor)driver;	
 		editPadaTabel.click();
 		Kategori(2);
 		txtUsernameEdit.clear();
 		txtUsernameEdit.sendKeys(usernamedituser);
 		txtNameEdit.clear();
 		txtNameEdit.sendKeys(namaedituser);
+		js.executeScript("arguments[0].scrollIntoView()", txtNameEdit);
 		txtEmailEdit.clear();
 		txtEmailEdit.sendKeys(emailedituser);
 		BtnUploadPictureEdit.sendKeys(pictureedituser);
 		StatusEdit(1);
+	}
+	
+public void editUserBug() {
 		btnSubmitEdit.click();
+//		harusnya berubah tapi nggak tuh
+//		harusnya kembali ke menu master user
+	}
+
+public void lanjuteditUser() {
+	
+	JavascriptExecutor js = (JavascriptExecutor)driver;
+	menuMaster.click();	
+	masterUser.click();
+	editPadaTabel.click();
+	js.executeScript("window.scrollBy(0,1000)");
+	btnBackEdit.click();
+
+}
+	
+	public void deleteUser(String searchuser) {
 		
-		menuMaster.click();	
-		masterUser.click();
-		editPadaTabel.click();
-		js.executeScript("window.scrollBy(0,1000)");
-		btnBackEdit.click();
+		JavascriptExecutor js = (JavascriptExecutor)driver;	
 		
 		txtSearchTabel.sendKeys(searchuser);
 		hapusPadaTabel.click();	
@@ -254,6 +278,14 @@ private WebDriver driver;
 	
 	public String getDisplayMasterAkun() {
 		return getTextMasterAkun.getText();
+	}	
+	
+	public WebElement getDisplay() {
+		return getTextMasterAkun;
+	}	
+	
+	public WebElement getDisplayEdit() {
+		return getEdit;
 	}	
 	
 	

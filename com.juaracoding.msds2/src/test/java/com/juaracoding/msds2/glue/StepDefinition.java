@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -23,8 +25,10 @@ import com.juaracoding.msds2.config.AutomationFrameworkConfiguration;
 import com.juaracoding.msds2.driver.DriverSingleton;
 import com.juaracoding.msds2.pages.HomePage;
 import com.juaracoding.msds2.pages.LoginPage;
+import com.juaracoding.msds2.pages.completedlist.CompletedListPage;
 import com.juaracoding.msds2.pages.distribusidata.DistribusiDataPage;
 import com.juaracoding.msds2.pages.uploadfilems.UploadFileMSPage;
+import com.juaracoding.msds2.pages.worklist.WorklistPage;
 import com.juaracoding.msds2.utils.ConfigurationProperties;
 import com.juaracoding.msds2.utils.Constants;
 import com.juaracoding.msds2.utils.TestCase;
@@ -46,6 +50,8 @@ public class StepDefinition {
 	private HomePage homepage;
 	private UploadFileMSPage uploadfilems;
 	private DistribusiDataPage distribusidata;
+	private WorklistPage worklist;
+	private CompletedListPage completedlist;
 	ExtentTest extentTest;
 	static ExtentReports report = new ExtentReports();
 	static ExtentSparkReporter htmlreporter = new ExtentSparkReporter("src/test/resources/reporttest.html");
@@ -62,6 +68,8 @@ public class StepDefinition {
 		homepage = new HomePage();
 		uploadfilems = new UploadFileMSPage();
 		distribusidata = new DistribusiDataPage();
+		worklist = new WorklistPage();
+		completedlist = new CompletedListPage();
 		TestCase[] tests = TestCase.values();
 		extentTest = report.createTest(tests[Utils.testcount].getTestname());
 		Utils.testcount++;
@@ -217,6 +225,7 @@ public class StepDefinition {
 	@When("Klik back dari view")
 	public void finnishuploadfilems() {
 		uploadfilems.BackfromView();
+		extentTest.pass("Berhasil Klik back dari view");
 	}
 
 	@Then("User berhasil melakukan upload data MS dengan bukti yang mengupload sesuai")
@@ -383,56 +392,148 @@ public class StepDefinition {
 
 	@Then("User berhasil mendistribusi data ke mobile sales dengan tampilan total in proses")
 	public void ViewInProses() {
-//		if(distribusidata.getTextinproses().equals
-//				(configurationProperties.getTextinproses())) {
-//			extentTest.log(Status.PASS, "User berhasil mendistribusi data ke mobile sales dengan tampilan total in proses");
-//		} else {
-//			try {
-//				Thread.sleep(1000);
-//				extentTest.fail("User berhasil mendistribusi data ke mobile sales dengan tampilan total in proses tetapi ada kesalahan teknis dengan screenshot dibawah", 
-//						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		assertEquals(configurationProperties.getTextinproses(), distribusidata.getTextinproses());
+		distribusidata.PickKategori();
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if(distribusidata.getTextinproses().equals
+				(configurationProperties.getTextinproses())) {
+			extentTest.log(Status.PASS, "User berhasil mendistribusi data ke mobile sales dengan tampilan total in proses");
+		} else {
+			try {
+				Thread.sleep(1000);
+				extentTest.fail("User berhasil mendistribusi data ke mobile sales dengan tampilan total in proses tetapi ada kesalahan teknis \n dengan screenshot dibawah", 
+						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertEquals(configurationProperties.getTextinproses(), distribusidata.getTextinproses());
 	}
 	
 	@Then("Tampilan Belum di pick up")
 	public void ViewTampilanBelumPickUp() {
-//		if(distribusidata.getTextbelumpickup().equals
-//				(configurationProperties.getTextbelumdipickup())) {
-//			extentTest.log(Status.PASS, "User berhasil mendistribusi data ke mobile sales dengan tampilan Belum di pick up");
-//		} else {
-//			try {
-//				Thread.sleep(1000);
-//				extentTest.fail("User berhasil mendistribusi data ke mobile sales dengan tampilan Belum di pick up tetapi ada kesalahan teknis dengan screenshot dibawah", 
-//						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		assertEquals(configurationProperties.getTextbelumdipickup(), distribusidata.getTextbelumpickup());
+		if(distribusidata.getTextbelumpickup().equals
+				(configurationProperties.getTextbelumdipickup())) {
+			extentTest.log(Status.PASS, "User berhasil mendistribusi data ke mobile sales dengan tampilan Belum di pick up");
+		} else {
+			try {
+				Thread.sleep(1000);
+				extentTest.fail("User berhasil mendistribusi data ke mobile sales dengan tampilan Belum di pick up tetapi ada kesalahan teknis dengan screenshot dibawah", 
+						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertEquals(configurationProperties.getTextbelumdipickup(), distribusidata.getTextbelumpickup());
 	}
 	
 	@Then("Tampilan Jadwal Ulang")
 	public void finnishedDistribusiData() {
-//		if(distribusidata.getTextjadwalulang().equals
-//				(configurationProperties.getTextjadwalulang())) {
-//			extentTest.log(Status.PASS, "User berhasil mendistribusi data ke mobile sales dengan tampilan Jadwal Ulang");
-//		} else {
-//			try {
-//				Thread.sleep(1000);
-//				extentTest.fail("User berhasil mendistribusi data ke mobile sales dengan tampilan Jadwal Ulang tetapi ada kesalahan teknis dengan screenshot dibawah", 
-//						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		assertEquals(configurationProperties.getTextjadwalulang(), distribusidata.getTextjadwalulang());
+		if(distribusidata.getTextjadwalulang().equals
+				(configurationProperties.getTextjadwalulang())) {
+			extentTest.log(Status.PASS, "User berhasil mendistribusi data ke mobile sales dengan tampilan Jadwal Ulang");
+		} else {
+			try {
+				Thread.sleep(1000);
+				extentTest.fail("User berhasil mendistribusi data ke mobile sales dengan tampilan Jadwal Ulang tetapi ada kesalahan teknis dengan screenshot dibawah", 
+						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertEquals(configurationProperties.getTextjadwalulang(), distribusidata.getTextjadwalulang());
+	}
+	
+	/*WorkList*/
+	
+	@Given("User masuk ke user Mobile Sales")
+	public void loginMobileSales() {
+		login.Logout();
+		login.fillFormLogin(configurationProperties.getUsername3(), configurationProperties.getPassword3());
+		login.clickBtnLogin();
+		login.closeDisplayAlert();
+		extentTest.log(Status.PASS, "User berhasil login ke user Mobile Sales");
+	}
+	
+	@When("Klik menu Worklist")
+	public void intoWorklist() {
+		homepage.toWorklist();
+		extentTest.log(Status.PASS, "Berhasil klik menu Worklist");
+	}
+	
+	@When("Klik customer yang ingin di survey dan isi form survey worklist")
+	public void fillFormWorklist() {
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		worklist.chooseCustomer();
+		worklist.uploadKTP(configurationProperties.getTextFotoKTP());
+		worklist.uploadNPWP(configurationProperties.getTextFotoNPWP());
+		worklist.uploadBukti(configurationProperties.getTextFotoBUKTI());
+		worklist.fillWroklistSurveySuksesPU(configurationProperties.getTextnotes());
+		extentTest.log(Status.PASS, "Berhasil klik customer yang ingin di survey dan isi form survey worklist");
+	}
+	
+	@When("Klik submit modul Worklist")
+	public void submitedthWorklistForm() {
+		worklist.submit();
+		extentTest.log(Status.PASS, "Berhasil klik submit modul Worklist");
+	}
+	
+	@Then("User berhasil survey worklist")
+	public void finnishedFormWorklist() {
+		if(worklist.getTextafterWorklist().equals
+				(configurationProperties.getTextafterworklist())) {
+			extentTest.log(Status.PASS, "User berhasil survey worklist");
+		} else {
+			try {
+				Thread.sleep(1000);
+				extentTest.log(Status.FAIL, "User berhasil survey worklist tetapi ada kesalahan teknis");
+				extentTest.fail("Test case fail with screenshot bellow", 
+						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertEquals(configurationProperties.getTextafterworklist(), worklist.getTextafterWorklist());		
+	}
+	
+	/*Completed List*/
+	
+	@When("User klik completedlist di user Mobile Sales")
+	public void intoCompletedListMobileSales() {
+		homepage.toCompletedList();
+		extentTest.log(Status.PASS, "User berhasil klik completedlist di user Mobile Sales");
+	}
+	
+	@When("Mengisi tanggal mulai dan memfilter pilih salah satu data customer untuk melihat detailnya di user Mobile Sales")
+	public void fillFormThCompletedListMobileSales() {
+		completedlist.detailCompletedList(configurationProperties.getTextStartDate());
+		extentTest.log(Status.PASS, "Berhasil Mengisi tanggal mulai dan memfilter pilih salah satu data customer untuk melihat detailnya di user Mobile Sales");
+	}
+	
+	@Then("User dapat melihat detail data customer yang dipilih di user Mobile Sales")
+	public void finnishedCompletedListMobileSales() {
+		if(completedlist.getTextafterCompletedlist().equals(configurationProperties.getTextaftercompletedlist())) {
+			extentTest.log(Status.PASS, "User bisa melihat detail data customer yang dipilih di user Mobile Sales");
+		}else {
+			try {
+				Thread.sleep(1000);
+				extentTest.log(Status.FAIL, "User bisa melihat detail data customer yang dipilih di user Mobile Sales tetapi ada kesalahan teknis");
+				extentTest.fail("Test case fail with screenshot bellow", 
+						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertEquals(configurationProperties.getTextaftercompletedlist(), completedlist.getTextafterCompletedlist());
 	}
 
 	@After

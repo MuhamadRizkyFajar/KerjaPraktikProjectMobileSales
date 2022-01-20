@@ -63,18 +63,28 @@ public class DistribusiDataPage {
 	private List<WebElement> listcustomer;
 
 	public void KategoriPilihan() {
+//		closealert.click();
 		kategorijadwalulang.click();
+//		closealert.click();
 		kategorigagalpickup.click();
+//		closealert.click();
 		kategoribatal.click();
+//		closealert.click();
 		kategorirts.click();
+//		closealert.click();
 		kategoriuncoverage.click();
+//		closealert.click();
 		kategorinorespon.click();
+//		closealert.click();
 		kategorinostatus.click();
+//		closealert.click();
 		kategoriresignatauterminate.click();
+//		closealert.click();
 	}
 
 	public void PickKategori() {
 		kategoridatabaru.click();
+//		closealert.click();
 		MobileSales(1);
 	}
 
@@ -170,6 +180,7 @@ public class DistribusiDataPage {
 
 	public void SubmitData() {
 		btnsubmit.click();
+//		closealert.click();
 	}
 	
 	@FindBy(css = "#in_proses")
@@ -182,14 +193,14 @@ public class DistribusiDataPage {
 	private WebElement textjadwalulang;
 	
 	public String getTextinproses() {
-		return textinproses.getText();
+		return textinproses.getAttribute("value");
 	}
 	
 	public String getTextbelumpickup() {
-		return textbelumpickup.getText();
+		return textbelumpickup.getAttribute("value");
 	}
 	
 	public String getTextjadwalulang() {
-		return textjadwalulang.getText();
+		return textjadwalulang.getAttribute("value");
 	}
 }

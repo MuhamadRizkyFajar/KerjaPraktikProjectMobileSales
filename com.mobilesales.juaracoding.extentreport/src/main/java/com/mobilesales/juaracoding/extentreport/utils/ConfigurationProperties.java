@@ -11,14 +11,38 @@ public class ConfigurationProperties {
 	@Value("${browser}")
 	private String browser;
 	
-	@Value("${usernamelogin}")
-	private String username;
+	@Value("${name1}")
+	private String name1;
 	
-	@Value("${passwordlogin}")
-	private String password;
+	@Value("${password1}")
+	private String password1;
 	
-	@Value("${getaccount}")
-	private String getaccount;
+	@Value("${textafterlogin1}")
+	private String textafterlogin1;
+	
+	@Value("${name2}")
+	private String name2;
+	
+	@Value("${password2}")
+	private String password2;
+	
+	@Value("${textafterlogin2}")
+	private String textafterlogin2;
+	
+	@Value("${name3}")
+	private String name3;
+	
+	@Value("${password3}")
+	private String password3;
+	
+	@Value("${textafterlogin3}")
+	private String textafterlogin3;
+	
+	@Value("${searchsummarymsdetail}")
+	private String searchsummarymsdetail;
+	
+	@Value("${searchsummarymsdetail2}")
+	private String searchsummarymsdetail2;
 	
 	@Value("${nikmasteruser}")
 	private String nikmasteruser;
@@ -91,6 +115,27 @@ public class ConfigurationProperties {
 	
 	@Value("${picturemasterposter}")
 	private String picturemasterposter;
+	
+	@Value("${tanggalawalsummaryms}")
+	private String tanggalawalsummaryms;
+	
+	@Value("${tanggalakhirsummaryms}")
+	private String tanggalakhirsummaryms;
+	
+	@Value("${searchsummaryms}")
+	private String searchsummaryms;
+
+	public String getSearchsummaryms() {
+		return searchsummaryms;
+	}
+
+	public String getTanggalawalsummaryms() {
+		return tanggalawalsummaryms;
+	}
+
+	public String getTanggalakhirsummaryms() {
+		return tanggalakhirsummaryms;
+	}
 
 	public String getPicturemasterposter() {
 		return picturemasterposter;
@@ -102,18 +147,6 @@ public class ConfigurationProperties {
 
 	public String getBrowser() {
 		return browser;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getGetaccount() {
-		return getaccount;
 	}
 
 	public String getNikmasteruser() {
@@ -203,5 +236,50 @@ public class ConfigurationProperties {
 	public String getSearchposter() {
 		return searchposter;
 	}
+	
+	public String getSearchsummarymsdetail() {
+		return searchsummarymsdetail;
+	}
+
+	public String getSearchsummarymsdetail2() {
+		return searchsummarymsdetail2;
+	}
+
+	public String getName1() {
+		return name1;
+	}
+
+	public String getPassword1() {
+		return password1;
+	}
+
+	public String getTextafterlogin1() {
+		return textafterlogin1;
+	}
+
+	public String getName2() {
+		return name2;
+	}
+
+	public String getPassword2() {
+		return password2;
+	}
+
+	public String getTextafterlogin2() {
+		return textafterlogin2;
+	}
+
+	public String getName3() {
+		return name3;
+	}
+
+	public String getPassword3() {
+		return password3;
+	}
+
+	public String getTextafterlogin3() {
+		return textafterlogin3;
+	}
+
 
 }

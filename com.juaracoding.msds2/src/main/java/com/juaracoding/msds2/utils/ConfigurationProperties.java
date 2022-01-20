@@ -120,24 +120,24 @@ public class ConfigurationProperties {
 	@Value("${jadwalulang}")
 	private String textjadwalulang;
 	
-//	@Value("${fotoktp}")
-//	private String textFotoKTP;
-//	
-//	@Value("${fotonpwp}")
-//	private String textFotoNPWP;
-//	
-//	@Value("${fotobukti}")
-//	private String textFotoBUKTI;
-//	
-//	@Value("${notes}")
-//	private String textnotes;
-//	
-//	@Value("${textafterworklist}")
-//	private String textafterworklist;
-//	
-//	@Value("${textaftercompletedlist}")
-//	private String textaftercompletedlist;
-//	
+	@Value("${fotoktp}")
+	private String textFotoKTP;
+	
+	@Value("${fotonpwp}")
+	private String textFotoNPWP;
+	
+	@Value("${fotobukti}")
+	private String textFotoBUKTI;
+	
+	@Value("${notes}")
+	private String textnotes;
+	
+	@Value("${textafterworklist}")
+	private String textafterworklist;
+	
+	@Value("${textaftercompletedlist}")
+	private String textaftercompletedlist;
+	
 //	@Value("${textaftersummarms}")
 //	private String textaftersummaryms;
 }

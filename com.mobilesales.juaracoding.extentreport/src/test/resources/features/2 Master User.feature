@@ -1,6 +1,7 @@
 Feature: MobileSales Master User
 
 	Scenario: Testing Fungsi New Master User
+	  Given User keluar dari user mobile sales dan login sebagai super admin
 		When User klik menu Master User lalu klik Add New User
 		And User memasukan data di form add user dan klik Submit
 		Then User berhasil membuat akun

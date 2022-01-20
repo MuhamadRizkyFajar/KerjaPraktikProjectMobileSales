@@ -24,10 +24,12 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.mobilesales.juaracoding.extentreport.driver.DriverSingleton;
 import com.mobilesales.juaracoding.extentreport.driver.config.AutomationFrameworkConfig;
+import com.mobilesales.juaracoding.extentreport.pages.DownloadAPK;
 import com.mobilesales.juaracoding.extentreport.pages.LoginPage;
 import com.mobilesales.juaracoding.extentreport.pages.MasterParameterUploadPage;
 import com.mobilesales.juaracoding.extentreport.pages.MasterPosterPage;
 import com.mobilesales.juaracoding.extentreport.pages.MasterUserPage;
+import com.mobilesales.juaracoding.extentreport.pages.SummaryMsPage;
 import com.mobilesales.juaracoding.extentreport.utils.ConfigurationProperties;
 import com.mobilesales.juaracoding.extentreport.utils.Constants;
 import com.mobilesales.juaracoding.extentreport.utils.TestCases;
@@ -51,6 +53,8 @@ public class StepDefinition {
 	private MasterUserPage masteruserPage;
 	private MasterParameterUploadPage masterparameterPage;
 	private MasterPosterPage masterposterPage;
+	private SummaryMsPage summaryPage;
+	private DownloadAPK downloadPage;
 	ExtentTest extentTest;
 	static ExtentReports report = new ExtentReports();
 	static ExtentSparkReporter htmlreporter = new ExtentSparkReporter("src/test/resources/reporttest.html");
@@ -67,36 +71,122 @@ public class StepDefinition {
 		masteruserPage = new MasterUserPage();
 		masterparameterPage = new MasterParameterUploadPage();
 		masterposterPage = new MasterPosterPage();
+		summaryPage = new SummaryMsPage();
+		downloadPage = new DownloadAPK();
 		TestCases[] tests = TestCases.values();
 		extentTest = report.createTest(tests[Utils.testCount].getTestName());
 		Utils.testCount++;
 	}
 	
-	@Given("^User buka halaman website")
-	public void user_buka_halaman_website() {
-		driver = DriverSingleton.getDriver();
-		driver.get(Constants.URL);
-		extentTest.pass("User buka halaman website " + Constants.URL);
-	}
-	
-	
 //	LOGIN
 //	User Super Admin
-	@When("^User memasukan username dan password dan klik Log In")
-	public void user_memasukan_username_dan_password_dan_klik_log_in() {
-		loginPage.Login(configurationProperties.getUsername(), configurationProperties.getPassword());
-		extentTest.pass("User memasukan username dan password dan klik Log In");
+	
+	@Given("^User membuka url")
+	public void user_membuka_url() {
+		driver = DriverSingleton.getDriver();
+		driver.get(Constants.URL);
+		extentTest.pass("User membuka url " + Constants.URL);
+	}
+
+	@When("^Mengisi username dan password login user Super Admin")
+	public void mengisi_username_dan_password_login_user_super_admin() {
+		loginPage.fillFormLogin(configurationProperties.getName1(), configurationProperties.getPassword1());
+		extentTest.pass("Mengisi username dan password login user Super Admin lalu klik Login");
 	}	
 	
-	@Then("^User dapat login ke Website")
-	public void user_dapat_login_ke_Website() {
-		loginPage.DisplayAlert();
-		assertEquals(configurationProperties.getGetaccount(), loginPage.getDisplayLogin());
-		extentTest.pass("User dapat login ke Website");
+	@Then("^User super admin dapat login ke Website")
+	public void user_super_admin_dapat_login_ke_Website() {
+		loginPage.closeDisplayAlert();
+		if(loginPage.getTextUserLogin().equalsIgnoreCase(configurationProperties.getTextafterlogin1())) {
+			extentTest.pass("User super admin berhasil login ke Website");
+		}else {
+			try {
+				Thread.sleep(1000);
+				extentTest.fail("User berhasil Login user Super Admin tetapi ada kesalahan teknis", 
+						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertEquals(configurationProperties.getTextafterlogin1(), loginPage.getTextUserLogin());
 	}
+	
+//	LOGIN
+//	User Supervisor
+	
+	@Given("User keluar dari user Super Admin")
+	public void user_keluar_dari_user_super_admin() {
+		loginPage.Logout();
+		extentTest.pass("User keluar dari user Super Admin");
+	}
+			
+	@When("Mengisi username dan password login user Supervisor")
+	public void mengisi_username_dan_password_login_user_supervisor() {
+		loginPage.fillFormLogin(configurationProperties.getName2(), configurationProperties.getPassword2());
+		extentTest.pass("Mengisi username dan password user Supervisor lalu klik Login");
+	}
+			
+	@Then("User supervisor dapat login ke Website")
+	public void user_supervisor_berhasil_login_user_supervisor() {
+		loginPage.closeDisplayAlert();
+		if(loginPage.getTextUserLogin().equalsIgnoreCase(configurationProperties.getTextafterlogin2())) {
+			extentTest.pass("User supervisor berhasil login ke Website");
+		}else {
+			try {
+				Thread.sleep(1000);
+				extentTest.fail("User berhasil Login user Supervisor tetapi ada kesalahan teknis", 
+						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+			} catch (Exception e) {
+					// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertEquals(loginPage.getTextUserLogin(), configurationProperties.getTextafterlogin2());
+	}
+		
+//	LOGIN
+//	User Mobile Sales
+		
+		@Given("User keluar dari user Supervisor")
+		public void user_keluar_dari_user_supervisor() {
+			loginPage.Logout();
+			extentTest.pass("User keluar dari user Supervisor");
+		}
+			
+		@When("Mengisi username dan password login user Mobile Sales")
+		public void mengisi_username_dan_password_login_user_mobile_sales() {
+			loginPage.fillFormLogin(configurationProperties.getName3(), configurationProperties.getPassword3());
+			extentTest.pass("Berhasil mengisi username dan password login");
+		}
+			
+		@Then("User mobile sales dapat login ke Website")
+		public void user_mobile_sales_berhasil_login_user_mobile_sales() {
+			loginPage.closeDisplayAlert();
+			if(loginPage.getTextUserLogin().equalsIgnoreCase(configurationProperties.getTextafterlogin3())) {
+				extentTest.pass("User mobile sales berhasil login ke Website");
+			}else {
+				try {
+					Thread.sleep(1000);
+					extentTest.fail("User berhasil Login user Supervisor tetapi ada kesalahan teknis", 
+							MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			assertEquals(loginPage.getTextUserLogin(), configurationProperties.getTextafterlogin3());
+		}
 	
 //	MASTER AKUN	
 //	NEW
+	@Given("User keluar dari user mobile sales dan login sebagai super admin")
+	public void user_keluar_dari_user_mobile_sales_dan_login_sebagai_super_admin() {
+		loginPage.Logout();
+		loginPage.fillFormLogin(configurationProperties.getName1(), configurationProperties.getPassword1());
+		loginPage.closeDisplayAlert();
+		extentTest.pass("User keluar dari user mobile sales dan login sebagai super admin");
+	}
 	@When("^User klik menu Master User lalu klik Add New User")
 	public void user_klik_menu_master_user_lalu_klik_add_new_user() {
 		masteruserPage.MasterUser();
@@ -139,14 +229,14 @@ public class StepDefinition {
 			
 			try {
 				Thread.sleep(1000);
-				extentTest.fail("User gagal melakukan edit data setelah tombol Submit dengan screenshot dibawah", 
+				extentTest.fail("User gagal melakukan edit data setelah klik tombol Submit dengan screenshot dibawah", 
 						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else {
-			extentTest.log(Status.PASS, "User berhasil melakukan edit akun");	
+			extentTest.pass("User berhasil melakukan edit akun");	
 		}	masteruserPage.lanjuteditUser();
 	}
 	
@@ -184,7 +274,7 @@ public class StepDefinition {
 	public void user_berhasil_membuat_data_pamameter_upload() {
 		masterparameterPage.getDisplayMasterParameter();
 		assertEquals(configurationProperties.getGetaccountmasterparameter(), masterparameterPage.getDisplayMasterParameter());
-		extentTest.log(Status.PASS, "User berhasil membuat Data Pamameter Upload");
+		extentTest.pass("User berhasil membuat Data Pamameter Upload");
 		
 		masterparameterPage.erorFormNewbtnBack();
 		if(masterparameterPage.getDisplayUser().isDisplayed()) {
@@ -236,7 +326,7 @@ public class StepDefinition {
 		
 		masterparameterPage.getDisplayMasterParameter();
 		assertEquals(configurationProperties.getGetaccountmasterparameter(), masterparameterPage.getDisplayMasterParameter());
-		extentTest.log(Status.PASS, "User berhasil melakukan edit akun");
+		extentTest.pass("User berhasil melakukan edit akun");
 		
 	}
 	
@@ -245,21 +335,21 @@ public class StepDefinition {
 	@When("^User klik menu Master Poster lalu klik Upload Poster")
 	public void user_klik_menu_master_poster_lalu_klik_upload_poster() {
 		masterposterPage.MasterPoster();
-		extentTest.log(Status.PASS, "User klik menu Master Poster lalu klik Upload Poster");
+		extentTest.pass("User klik menu Master Poster lalu klik Upload Poster");
 	}
 	
 	@When("^User memasukan data di form upload poster dan klik Submit")
 	public void user_memasukan_data_di_form_upload_dan_klik_submit() {
 		masterposterPage.formMasterPoster(configurationProperties.getProgramnameposter(), 
 				configurationProperties.getPicturemasterposter());
-		extentTest.log(Status.PASS, "User memasukan data di form upload poster dan klik Submit");
+		extentTest.pass("User memasukan data di form upload poster dan klik Submit");
 	}
 	
 	@Then("^User berhasil membuat Poster")
 	public void user_berhasil_membuat_poster() {
 		masterposterPage.getDisplayMasterPoster();
 		assertEquals(configurationProperties.getGetaccountmasterposter(), masterposterPage.getDisplayMasterPoster());
-		extentTest.log(Status.PASS, "User berhasil membuat Data Pamameter Upload");
+		extentTest.pass("User berhasil membuat Poster");
 	}
 	
 //	EDIT
@@ -293,6 +383,113 @@ public class StepDefinition {
 		masterposterPage.getDisplayMasterPoster();
 		assertEquals(configurationProperties.getGetaccountmasterposter(), masterposterPage.getDisplayMasterPoster());
 		extentTest.pass("User berhasil melakukan delete poster");
+	}
+	
+//	SUMMARY MS
+//	SUPER ADMIN
+	@When("^User klik menu Summary MS lalu masukan data Summary MS")
+	public void user_klik_menu_summary_ms_lalu_masukan_data_summary_ms() {
+		summaryPage.inputSummaryMSadmin(configurationProperties.getTanggalawalsummaryms(),configurationProperties.getTanggalakhirsummaryms());
+		extentTest.pass("User klik menu Summary MS lalu masukan data Summary MS");
+	}
+	
+	@Then("^User berhasil menampilkan data di form Summary MS")
+	public void user_berhasil_menampilkan_data_di_form_summary_ms() {
+	
+		if(summaryPage.getDisplayTabel().isDisplayed()) {
+			
+			try {
+				Thread.sleep(1000);
+				extentTest.fail("User gagal menampilkan data di form Summary MS dengan screenshot dibawah", 
+						MediaEntityBuilder.createScreenCaptureFromPath(captureScreen()).build());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			extentTest.pass("User berhasil menampilkan data di form Summary MS");	
+		}	
+	}
+	
+//	SUMMARY MS
+//	Supervisor
+	
+	@Given("User keluar dari user superadmin dan login sebagai supervisor")
+	public void user_keluar_dari_user_superadmin_dan_login_sebagai_supervisor() {
+		loginPage.Logout();
+		loginPage.fillFormLogin(configurationProperties.getName2(), configurationProperties.getPassword2());
+		loginPage.closeDisplayAlert();
+		extentTest.pass("User keluar dari user superadmin dan login sebagai supervisor");
+	}
+	
+	@When("^User Supervisor klik menu Summary MS lalu masukan data Summary MS")
+	public void user_supervisor_klik_menu_summary_ms_lalu_masukan_data_summary_ms() {
+		summaryPage.inputSummaryMSspv(configurationProperties.getTanggalawalsummaryms(),configurationProperties.getTanggalakhirsummaryms());
+		extentTest.pass("User klik menu Summary MS lalu masukan data Summary MS");
+	}
+	
+	@Then("^User Supervisor berhasil menampilkan data di form Summary MS")
+	public void user_supervisor_berhasil_menampilkan_data_di_form_summary_ms() {
+		summaryPage.viewSummaryMS(configurationProperties.getSearchsummaryms());
+		summaryPage.viewSummaryMSDetail(configurationProperties.getSearchsummarymsdetail(), configurationProperties.getSearchsummarymsdetail2());
+			extentTest.pass("User Supervisor berhasil menampilkan data di form Summary MS");	
+	}
+		
+
+//	DOWNLOAD APK
+//	Supervisor
+		
+	@When("Klik menu Download APK user Supervisor")
+	public void klik_menu_download_apk_user_supervisor() {
+		downloadPage.toDownloadAPK();
+		extentTest.pass("User klik menu Download APK user Supervisor");
+	}
+		
+	@Then("User berhasil download APK user Supervisor")
+	public void finnishDownloadAPKSupervisor() {
+		extentTest.pass("User berhasil download APK user Supervisor");
+	}
+	
+//	Super Admin
+	
+	@Given("User keluar dan login user Super Admin")
+	public void user_keluar_dan_login_user_super_admin() {
+	loginPage.Logout();
+	loginPage.fillFormLogin(configurationProperties.getName1(), configurationProperties.getPassword1());
+	loginPage.closeDisplayAlert();
+	extentTest.pass("User logout dan login user Super Admin");
+	}
+	
+	@When("User klik menu Download APK user Super Admin")
+	public void user_klik_menu_download_apk_user_super_admin() {
+		downloadPage.toDownloadAPK();
+		extentTest.pass("User berhasil klik menu Download APK user Super Admin");
+	}
+	
+	@Then("User berhasil download APK user Super Admin")
+	public void finnishDownloadAPKSuperAdmin() {
+		extentTest.pass("User berhasil download APK user Super Admin");
+	}
+	
+	//Mobile Sales
+	
+	@Given("User keluar dan login user Mobile Sales")
+	public void user_keluar_dan_login_user_mobile_sales() {
+		loginPage.Logout();
+		loginPage.fillFormLogin(configurationProperties.getName3(), configurationProperties.getPassword3());
+		loginPage.closeDisplayAlert();
+		extentTest.pass("User berhasil logout dan login user Mobile Sales");
+	}
+	
+	@When("Klik menu Download APK user Mobile Sales")
+	public void downloadApkMobileSales() {
+		downloadPage.toDownloadAPK();
+		extentTest.pass("Berhasil klik menu Download APK user Mobile Sales");
+	}
+	
+	@Then("User berhasil download APK user Mobile Sales")
+	public void finnishDownloadAPKMobileSales() {
+		extentTest.pass("User berhasil download APK user Mobile Sales");
 	}
 	
 

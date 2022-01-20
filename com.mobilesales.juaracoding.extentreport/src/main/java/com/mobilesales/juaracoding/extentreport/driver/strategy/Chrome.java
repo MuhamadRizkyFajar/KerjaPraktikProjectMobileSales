@@ -10,7 +10,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public class Chrome implements DriverStrategy {
 
 	public WebDriver setStrategy() {
-		System.setProperty("webdriver.chrome.driver", "D:\\Training\\QA\\aplikasi\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "D:/DriverChrome/chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 		options.setExperimentalOption("useAutomationExtension", false);
 		Map<String, Object> prefs = new HashMap<String, Object>();
